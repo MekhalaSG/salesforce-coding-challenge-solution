@@ -38,3 +38,20 @@ In the next step we would like you to implement a simple Invocable Apex Action t
 Finishing these tasks should take about 2-3 hours, but we are all about **'quality > speed'**, so it's better to deliver a clean MVP and leave some TODOs open.
 
 Try to produce something that is at least minimally functional. Part of the exercise is to see what you prioritize first when you have a limited amount of time. For any unfinished tasks, please do add `TODO` comments to your code with a short explanation. You will be given an opportunity later to go into more detail and explain how you would go about finishing those tasks.
+
+# Salesforce Coding Solution 
+## Thermondo Coding Challenge
+
+For the coding challenge provided , I have created the below list of code and metadata as a solution :
+* GetOrderDetails.cls
+* GetOrderDetailsTest.cls
+* makeNPSCalloutService.cls
+* makeNPSCallout.cls
+* MockHttpsResponseGenerator.cls
+* Order_After_Update.flow-meta.xml
+* NPSCalloutEndpointAPI.namedCredential-meta.xml
+
+## Limitations of the solution
+* Error Response processing in makeNPSCallout.cls - `TODO`
+* Error handling return to flow "Order_After_Update.flow-meta.xml" - To be done using Platform events - `TODO`
+* Creating and using Object factory class for Test data setup in GetOrderDetailsTest.cls - `TODO`

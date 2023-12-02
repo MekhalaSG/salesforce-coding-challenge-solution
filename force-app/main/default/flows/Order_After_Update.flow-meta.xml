@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Get Order Details and send to NPS</description>
+        <name>Get_Order_Details_and_send_to_NPS</name>
+        <label>Get Order Details and send to NPS</label>
+        <locationX>176</locationX>
+        <locationY>431</locationY>
+        <actionName>GetOrderDetails</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>orderids</name>
+            <value>
+                <elementReference>OldOrderIdList</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>ListOfOutputOrders</assignToReference>
+            <name>output</name>
+        </outputParameters>
+    </actionCalls>
+    <apiVersion>59.0</apiVersion>
+    <assignments>
+        <description>Assign Updated Order Ids</description>
+        <name>Assign_Updated_Order_Ids</name>
+        <label>Assign Updated Order Ids</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <assignmentItems>
+            <assignToReference>OldOrderIdList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record__Prior.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Order_Details_and_send_to_NPS</targetReference>
+        </connector>
+    </assignments>
+    <description>This flow checks if the Order status is updated to &apos;Fulfilled&apos;, then it sends the Order data to NPS API for storing the order details and sending out the customer survey email.</description>
+    <environments>Default</environments>
+    <interviewLabel>Order - After Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Order - After Update</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Assign_Updated_Order_Ids</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Fulfilled</stringValue>
+            </value>
+        </filters>
+        <object>Order</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>ApexReturnMessage</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>List Of Order details from Apex class Get Order Info callout.</description>
+        <name>ListOfOutputOrders</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Order</objectType>
+    </variables>
+    <variables>
+        <description>Old Order Id List</description>
+        <name>OldOrderIdList</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
